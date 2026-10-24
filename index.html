@@ -1,0 +1,779 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Beloved Wife | Noorfazlin Ayuhan 💕</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Cormorant Garamond, Great Vibes, Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        berry: {
+                            50: '#fdf2f4',
+                            100: '#fbe6eb',
+                            200: '#f7cfda',
+                            300: '#f0a9be',
+                            400: '#e57799',
+                            500: '#d74e79',
+                            600: '#c23360',
+                            700: '#a3244c',
+                            800: '#882142',
+                            900: '#73203c',
+                            950: '#430d1f',
+                        },
+                        champagne: {
+                            50: '#fefcf8',
+                            100: '#fcf6e8',
+                            200: '#f7ebce',
+                            300: '#f0dba3',
+                            400: '#e6c374',
+                            500: '#d9a74a',
+                            600: '#c48a3a',
+                        },
+                        blush: '#fff5f7',
+                        warmWhite: '#faf6f0',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        cursive: ['Great Vibes', 'cursive'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-medium': 'float 5s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite alternate',
+                        'spin-slow': 'spin 20s linear infinite',
+                        'shimmer': 'shimmer 3s infinite linear',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-18px) rotate(2deg)' },
+                        },
+                        pulseGlow: {
+                            '0%': { opacity: '0.4', filter: 'drop-shadow(0 0 10px rgba(215, 78, 121, 0.4))' },
+                            '100%': { opacity: '0.8', filter: 'drop-shadow(0 0 25px rgba(217, 167, 74, 0.7))' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern Design System & Ambient Glows */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #430d1f 0%, #73203c 40%, #882142 70%, #430d1f 100%);
+            color: #faf6f0;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Luxury Cards */
+        .glass-panel {
+            background: rgba(255, 245, 247, 0.07);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(247, 207, 218, 0.18);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(217, 167, 74, 0.25);
+            box-shadow: 0 15px 40px rgba(115, 32, 60, 0.15);
+        }
+
+        .cursive-title {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #f7ebce 0%, #e6c374 50%, #d9a74a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Rose Gold Metallic Text */
+        .text-rose-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f7cfda 50%, #e57799 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Interactive Canvas */
+        #ambientCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Wax Seal Styling */
+        .wax-seal {
+            background: radial-gradient(circle, #a3244c 0%, #73203c 70%, #430d1f 100%);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Letter Reveal */
+        .letter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-in-out;
+            opacity: 0;
+        }
+
+        .letter-open {
+            max-height: 2000px;
+            opacity: 1;
+        }
+
+        /* Polaroid Photo Effect */
+        .polaroid-card {
+            background: #ffffff;
+            padding: 12px 12px 24px 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .polaroid-card:hover {
+            transform: translateY(-10px) rotate(0deg) scale(1.03);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+            z-index: 20;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #430d1f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #a3244c;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e57799;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-berry-500 selection:text-white">
+
+    <!-- Interactive Ambient Glow Canvas (Hearts, Sparkles & Rose Petals) -->
+    <canvas id="ambientCanvas"></canvas>
+
+    <!-- Top Music & Sound Effect Controller -->
+    <header class="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="glass-panel hover:bg-berry-800/60 text-champagne-200 px-4 py-2.5 rounded-full text-xs sm:text-sm font-medium flex items-center gap-2.5 transition-all shadow-lg border border-champagne-300/30 active:scale-95 group">
+            <i id="musicIcon" class="fas fa-music text-champagne-400 group-hover:rotate-12 transition-transform"></i>
+            <span id="musicText">Romantic Melody</span>
+            <span id="visualizer" class="hidden flex items-end gap-1 h-3">
+                <span class="w-0.5 bg-champagne-300 animate-[bounce_1s_infinite_100ms] h-full"></span>
+                <span class="w-0.5 bg-champagne-300 animate-[bounce_1s_infinite_300ms] h-2"></span>
+                <span class="w-0.5 bg-champagne-300 animate-[bounce_1s_infinite_200ms] h-3"></span>
+            </span>
+        </button>
+    </header>
+
+    <!-- Main Container Wrapper -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 py-6 sm:px-8 space-y-24 sm:space-y-32">
+
+        <!-- ================= 1. HERO BANNER ================= -->
+        <section class="min-h-[90vh] flex flex-col justify-center items-center text-center relative pt-12">
+            
+            <!-- Floating Decorative Element -->
+            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-berry-900/80 border border-champagne-400/40 text-champagne-300 text-xs sm:text-sm font-medium mb-8 shadow-xl animate-float-slow backdrop-blur-md">
+                <i class="fas fa-sparkles text-champagne-400"></i>
+                <span class="uppercase tracking-widest text-[10px] sm:text-xs">A Grand Birthday Celebration</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-champagne-400"></span>
+                <span class="font-semibold text-white">25th October 2026</span>
+            </div>
+
+            <!-- Main Headline -->
+            <div class="space-y-4 max-w-4xl">
+                <h2 class="text-xl sm:text-3xl font-serif italic text-champagne-200 tracking-wide">
+                    Happy Birthday, My Beloved Wife
+                </h2>
+                
+                <h1 class="text-5xl sm:text-7xl md:text-8xl font-serif font-bold tracking-tight leading-none py-2">
+                    <span class="cursive-title text-6xl sm:text-8xl md:text-9xl text-gold-gradient font-normal block mb-2 drop-shadow-lg">
+                        Noorfazlin Ayuhan
+                    </span>
+                </h1>
+
+                <p class="text-sm sm:text-lg text-berry-100 font-light max-w-2xl mx-auto leading-relaxed opacity-90 px-4">
+                    The cherished queen of my heart, soulmate to <strong class="text-champagne-300 font-semibold">Muhammad Firdaus</strong>, and the most loving mother to our three precious children.
+                </p>
+            </div>
+
+            <!-- Children Pill Badges -->
+            <div class="mt-10 flex flex-wrap justify-center items-center gap-3 text-xs sm:text-sm">
+                <span class="text-berry-200 font-serif italic text-sm mr-1">Blessed with:</span>
+                <div class="px-4 py-1.5 rounded-full glass-panel text-champagne-200 border border-champagne-400/30 font-medium flex items-center gap-2">
+                    <i class="fas fa-crown text-champagne-400 text-xs"></i> Muhammad Al-Fateh
+                </div>
+                <div class="px-4 py-1.5 rounded-full glass-panel text-champagne-200 border border-champagne-400/30 font-medium flex items-center gap-2">
+                    <i class="fas fa-star text-champagne-400 text-xs"></i> Muhammad Al-Fayyad
+                </div>
+                <div class="px-4 py-1.5 rounded-full glass-panel text-champagne-200 border border-champagne-400/30 font-medium flex items-center gap-2">
+                    <i class="fas fa-heart text-berry-400 text-xs"></i> Maryam Falisa
+                </div>
+            </div>
+
+            <!-- Call to Actions -->
+            <div class="mt-12 flex flex-wrap justify-center gap-4">
+                <button onclick="triggerLoveShower()" class="px-8 py-4 rounded-full bg-gradient-to-r from-champagne-500 via-champagne-400 to-champagne-600 text-berry-950 font-semibold text-sm sm:text-base shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                    <i class="fas fa-heart text-berry-800 animate-pulse"></i> Shower With Love
+                </button>
+                <a href="#heartfeltLetter" class="px-8 py-4 rounded-full glass-panel text-champagne-100 hover:bg-white/10 font-medium text-sm sm:text-base border border-champagne-300/30 transition-all flex items-center gap-2">
+                    <i class="fas fa-envelope-open-text text-champagne-400"></i> Read Firdaus' Letter
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#heartfeltLetter" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-champagne-300/60 hover:text-champagne-200 transition-colors flex flex-col items-center gap-1 text-xs">
+                <span>Scroll to Explore</span>
+                <i class="fas fa-chevron-down animate-bounce"></i>
+            </a>
+        </section>
+
+
+        <!-- ================= 2. HEARTFELT LETTER FROM MUHAMMAD FIRDAUS ================= -->
+        <section id="heartfeltLetter" class="scroll-mt-20">
+            <div class="text-center max-w-xl mx-auto space-y-2 mb-8">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-400">A Message From The Heart</span>
+                <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white">Husband's Love Letter</h2>
+                <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-champagne-400 to-transparent mx-auto"></div>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <!-- Outer Envelope Card -->
+                <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-champagne-400/30 relative shadow-2xl overflow-hidden">
+                    
+                    <!-- Top Sealed Header Button -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/10 pb-6">
+                        <div class="flex items-center gap-4 text-center sm:text-left">
+                            <div class="w-16 h-16 rounded-full wax-seal flex items-center justify-center text-champagne-300 text-2xl font-serif font-bold border-2 border-champagne-400/40 shrink-0">
+                                MF
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-xl sm:text-2xl font-bold text-champagne-100">To My Dearest Wife, Noorfazlin</h3>
+                                <p class="text-xs text-berry-200 font-light">Penned with all my love • October 25, 2026</p>
+                            </div>
+                        </div>
+
+                        <button onclick="toggleLetter()" id="letterToggleBtn" class="px-6 py-3 rounded-full bg-berry-700/80 hover:bg-berry-600 text-champagne-200 border border-champagne-400/30 text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 shadow-lg active:scale-95 shrink-0">
+                            <i id="letterBtnIcon" class="fas fa-envelope"></i>
+                            <span id="letterBtnText">Unseal Letter</span>
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Letter Body -->
+                    <div id="letterBody" class="letter-content">
+                        <div class="glass-panel-light rounded-2xl p-6 sm:p-12 text-gray-800 font-serif text-base sm:text-lg leading-relaxed space-y-6 mt-8 relative shadow-inner">
+                            <div class="absolute top-6 right-6 text-berry-200 text-6xl font-cursive pointer-events-none select-none opacity-40">With Love</div>
+
+                            <p class="text-berry-900 font-semibold text-lg sm:text-xl">
+                                Dearest Noorfazlin,
+                            </p>
+
+                            <p>
+                                As we celebrate your birthday on this beautiful 25th day of October, 2026, my heart overflows with immense gratitude to Allah (SWT) for blessing me with you as my wife, my best friend, and my lifelong partner.
+                            </p>
+
+                            <p>
+                                You are the gentle light that fills our home with warmth and peace. Everyday, I witness your unconditional devotion, strength, and tenderness—not only as my beloved wife, but as the incredible mother to our three precious children: <strong>Muhammad Al-Fateh</strong>, <strong>Muhammad Al-Fayyad</strong>, and <strong>Maryam Falisa</strong>.
+                            </p>
+
+                            <p>
+                                Thank you for every smile you bring to our faces, every sacrifice you make behind the scenes, and for making our family complete. You are my greatest blessing and my forever pride.
+                            </p>
+
+                            <p>
+                                May Allah grant you abundance in health, joy that never fades, peace in your heart, and shower you with infinite blessings today and always. Happy Birthday, my queen!
+                            </p>
+
+                            <div class="pt-6 border-t border-berry-100 flex flex-col items-start gap-1">
+                                <span class="text-xs font-sans uppercase tracking-widest text-berry-600">With all my love forever,</span>
+                                <span class="cursive-title text-3xl sm:text-4xl text-berry-800 font-normal">Muhammad Firdaus</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subtle Placeholder Prompt when collapsed -->
+                    <p id="letterPrompt" class="text-center text-xs text-berry-200/80 italic mt-6">
+                        Click "Unseal Letter" above to reveal Muhammad Firdaus' birthday message to you.
+                    </p>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= 3. OUR BELOVED TREASURES (FAMILY SHOWCASE) ================= -->
+        <section class="space-y-12">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-400">Pillars of Our Happiness</span>
+                <h2 class="text-3xl sm:text-5xl font-serif font-bold text-white">Our 3 Precious Children</h2>
+                <p class="text-berry-200 text-xs sm:text-sm">Sweet birthday wishes from our little blessings to their wonderful Mommy.</p>
+            </div>
+
+            <!-- Grid of Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-6">
+                
+                <!-- Child 1: Al-Fateh -->
+                <div class="polaroid-card rounded-2xl flex flex-col justify-between text-gray-800 rotate-[-1deg]">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-blue-100 via-indigo-50 to-blue-200 flex flex-col items-center justify-center p-4 text-center border border-blue-200">
+                            <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center text-blue-600 text-2xl mb-2">
+                                👑
+                            </div>
+                            <span class="text-xs font-semibold text-blue-700 uppercase tracking-wider">Eldest Son • Strong Pillar</span>
+                            <h3 class="font-serif font-bold text-xl text-gray-900">Muhammad Al-Fateh</h3>
+                        </div>
+
+                        <div class="px-2 space-y-2">
+                            <p class="font-serif italic text-sm text-gray-700 leading-relaxed">
+                                "Happy Birthday, Mummy! Thank you for being the kindest and smartest mummy. You always take care of me and teach me to be strong. I love you so much!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 px-2 font-sans">
+                        <span class="font-medium text-blue-600">With love, Al-Fateh 💙</span>
+                        <i class="fas fa-star text-amber-400"></i>
+                    </div>
+                </div>
+
+                <!-- Child 2: Al-Fayyad -->
+                <div class="polaroid-card rounded-2xl flex flex-col justify-between text-gray-800 rotate-[1.5deg]">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-emerald-100 via-teal-50 to-emerald-200 flex flex-col items-center justify-center p-4 text-center border border-emerald-200">
+                            <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center text-emerald-600 text-2xl mb-2">
+                                🌟
+                            </div>
+                            <span class="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Second Son • Joyful Heart</span>
+                            <h3 class="font-serif font-bold text-xl text-gray-900">Muhammad Al-Fayyad</h3>
+                        </div>
+
+                        <div class="px-2 space-y-2">
+                            <p class="font-serif italic text-sm text-gray-700 leading-relaxed">
+                                "Happy Birthday, Mummy! Your warm hugs are my most favorite thing. Thank you for making yummy food and making our house full of laughter every day!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 px-2 font-sans">
+                        <span class="font-medium text-emerald-600"> Hugs, Al-Fayyad 💚</span>
+                        <i class="fas fa-smile text-emerald-500"></i>
+                    </div>
+                </div>
+
+                <!-- Child 3: Maryam Falisa -->
+                <div class="polaroid-card rounded-2xl flex flex-col justify-between text-gray-800 rotate-[-2deg]">
+                    <div class="space-y-4">
+                        <div class="w-full h-48 rounded-xl bg-gradient-to-br from-rose-100 via-pink-50 to-rose-200 flex flex-col items-center justify-center p-4 text-center border border-rose-200">
+                            <div class="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center text-rose-500 text-2xl mb-2">
+                                🌸
+                            </div>
+                            <span class="text-xs font-semibold text-rose-700 uppercase tracking-wider">Sweet Daughter • Little Princess</span>
+                            <h3 class="font-serif font-bold text-xl text-gray-900">Maryam Falisa</h3>
+                        </div>
+
+                        <div class="px-2 space-y-2">
+                            <p class="font-serif italic text-sm text-gray-700 leading-relaxed">
+                                "Happy Birthday to my beautiful Mummy! I want to be sweet, kind, and pretty just like you when I grow up. You are my superhero!"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 px-2 font-sans">
+                        <span class="font-medium text-rose-600">Love you forever, Maryam 💖</span>
+                        <i class="fas fa-heart text-rose-400"></i>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= 4. INTERACTIVE REASONS WHY I LOVE YOU GENERATOR ================= -->
+        <section class="glass-panel rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden border border-champagne-400/30">
+            <div class="max-w-xl mx-auto space-y-3 mb-8">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-400">Whispers of Admiration</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">Reasons Why Firdaus Loves You</h2>
+                <p class="text-berry-200 text-xs sm:text-sm">Click the button below to reveal another note of appreciation for you.</p>
+            </div>
+
+            <!-- Love Note Card Display -->
+            <div class="max-w-2xl mx-auto min-h-[160px] glass-panel-light rounded-2xl p-6 sm:p-8 flex items-center justify-center text-center relative shadow-xl my-6">
+                <i class="fas fa-quote-left absolute top-4 left-4 text-berry-200 text-3xl"></i>
+                <p id="loveNoteText" class="font-serif text-lg sm:text-2xl text-berry-900 italic leading-relaxed px-6">
+                    "Your smile instantly brightens up my darkest days and brings peace to our home."
+                </p>
+                <i class="fas fa-quote-right absolute bottom-4 right-4 text-berry-200 text-3xl"></i>
+            </div>
+
+            <!-- Generator Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mt-6">
+                <button onclick="generateNewLoveNote()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-berry-600 to-berry-700 hover:from-berry-500 hover:to-berry-600 text-champagne-100 font-medium text-sm sm:text-base shadow-lg transition-all active:scale-95 flex items-center gap-2 border border-champagne-400/30">
+                    <i class="fas fa-random text-champagne-400"></i>
+                    <span>Reveal Another Reason</span>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= 5. INTERACTIVE BIRTHDAY CAKE & WISH ================= -->
+        <section class="glass-panel rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden border border-champagne-400/30">
+            <div class="space-y-2 mb-8">
+                <span class="text-xs font-bold uppercase tracking-widest text-champagne-400">Make A Special Wish</span>
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white">Blow Out Your Candles 🎂</h2>
+                <p id="cakeStatusText" class="text-berry-200 text-xs sm:text-sm max-w-md mx-auto">
+                    Close your eyes, make a heartfelt wish, and click below to blow out the flames!
+                </p>
+            </div>
+
+            <!-- Stylized CSS Cake -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto my-6 flex items-center justify-center">
+                <div class="relative w-full h-full flex flex-col items-center justify-end pb-6">
+                    
+                    <!-- 3 Candles -->
+                    <div class="flex gap-8 mb-2 z-20">
+                        <div class="relative flex flex-col items-center">
+                            <div id="cakeFlame1" class="w-3.5 h-6 bg-gradient-to-t from-amber-500 via-yellow-300 to-white rounded-full animate-pulse shadow-[0_0_12px_#f59e0b]"></div>
+                            <div class="w-2.5 h-10 bg-gradient-to-b from-champagne-200 to-champagne-400 rounded-t-sm shadow-sm"></div>
+                        </div>
+                        <div class="relative flex flex-col items-center -mt-2">
+                            <div id="cakeFlame2" class="w-4 h-7 bg-gradient-to-t from-amber-500 via-yellow-300 to-white rounded-full animate-pulse shadow-[0_0_15px_#f59e0b]"></div>
+                            <div class="w-3 h-12 bg-gradient-to-b from-berry-200 to-berry-400 rounded-t-sm shadow-sm"></div>
+                        </div>
+                        <div class="relative flex flex-col items-center">
+                            <div id="cakeFlame3" class="w-3.5 h-6 bg-gradient-to-t from-amber-500 via-yellow-300 to-white rounded-full animate-pulse shadow-[0_0_12px_#f59e0b]"></div>
+                            <div class="w-2.5 h-10 bg-gradient-to-b from-champagne-200 to-champagne-400 rounded-t-sm shadow-sm"></div>
+                        </div>
+                    </div>
+
+                    <!-- Top Cake Tier -->
+                    <div class="w-44 sm:w-52 h-14 bg-gradient-to-r from-berry-200 via-blush to-berry-200 rounded-t-2xl relative shadow-md flex items-center justify-center border-b-2 border-berry-300">
+                        <span class="font-serif text-xs font-bold text-berry-800 tracking-wider">NOORFAZLIN</span>
+                    </div>
+
+                    <!-- Middle Cake Tier -->
+                    <div class="w-52 sm:w-60 h-14 bg-gradient-to-r from-berry-400 via-berry-300 to-berry-400 border-b-2 border-berry-500 relative shadow-md flex items-center justify-center">
+                        <div class="w-full h-1 bg-champagne-300/60"></div>
+                    </div>
+
+                    <!-- Bottom Cake Tier -->
+                    <div class="w-60 sm:w-68 h-16 bg-gradient-to-r from-berry-700 via-berry-600 to-berry-700 rounded-b-xl shadow-2xl relative flex items-center justify-center">
+                        <span class="text-champagne-200 text-xs font-serif tracking-widest">25 OCT 2026</span>
+                    </div>
+
+                    <!-- Plate -->
+                    <div class="w-68 sm:w-76 h-3 bg-champagne-300/80 rounded-full shadow-lg border-b border-champagne-400 -mt-1"></div>
+                </div>
+            </div>
+
+            <!-- Cake Blow Button -->
+            <div class="mt-4">
+                <button id="blowCandleBtn" onclick="blowCandles()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-champagne-400 via-champagne-500 to-champagne-600 text-berry-950 font-bold text-sm sm:text-base shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 mx-auto">
+                    <i class="fas fa-wind"></i>
+                    <span>Blow Out Candles</span>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- ================= 6. CLOSING & FOOTER ================= -->
+        <footer class="text-center pt-12 pb-12 border-t border-champagne-400/20 space-y-4">
+            <div class="cursive-title text-4xl sm:text-5xl text-gold-gradient">
+                Forever & Always
+            </div>
+            
+            <p class="text-sm text-berry-100 font-serif italic max-w-md mx-auto">
+                "Loved yesterday, loved today, and loved forever."
+            </p>
+
+            <div class="pt-4 text-xs text-champagne-300/80 font-sans space-y-1">
+                <p>Designed with deep affection by <strong class="text-champagne-200">Muhammad Firdaus</strong></p>
+                <p>For my dear wife, <strong class="text-white">Noorfazlin Ayuhan</strong></p>
+                <p class="text-berry-200/60 pt-2">Muhammad Al-Fateh • Muhammad Al-Fayyad • Maryam Falisa</p>
+            </div>
+        </footer>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- 1. Ambient Background Particle System ---
+        const canvas = document.getElementById('ambientCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        class AmbientParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + Math.random() * 50;
+                this.size = Math.random() * 10 + 6;
+                this.speedY = Math.random() * 0.8 + 0.3;
+                this.speedX = Math.sin(this.y * 0.01) * 0.4;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.color = ['#f7cfda', '#e57799', '#f7ebce', '#d9a74a'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.y -= this.speedY;
+                this.x += Math.sin(this.y * 0.015) * 0.3;
+                if (this.y < -20) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                
+                // Draw floating gentle hearts
+                ctx.translate(this.x, this.y);
+                ctx.beginPath();
+                const d = this.size / 2;
+                ctx.moveTo(0, d / 4);
+                ctx.quadraticCurveTo(0, 0, d / 2, 0);
+                ctx.quadraticCurveTo(d, 0, d, d / 2);
+                ctx.quadraticCurveTo(d, d, 0, d * 1.5);
+                ctx.quadraticCurveTo(-d, d, -d, d / 2);
+                ctx.quadraticCurveTo(-d, 0, -d / 2, 0);
+                ctx.quadraticCurveTo(0, 0, 0, d / 4);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+
+        const ambientParticles = Array.from({ length: 30 }, () => new AmbientParticle());
+
+        function renderAmbient() {
+            ctx.clearRect(0, 0, width, height);
+            ambientParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(renderAmbient);
+        }
+        renderAmbient();
+
+
+        // --- 2. Interactive Audio Web Synthesizer (No external file lock) ---
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let melodyInterval = null;
+
+        const melodyNotes = [
+            329.63, 329.63, 349.23, 392.00, // E4, E4, F4, G4
+            392.00, 349.23, 329.63, 293.66, // G4, F4, E4, D4
+            261.63, 261.63, 293.66, 329.63, // C4, C4, D4, E4
+            329.63, 293.66, 293.66          // E4, D4, D4
+        ];
+        let noteIdx = 0;
+
+        function playRomanticChords() {
+            if (!audioCtx || audioCtx.state === 'suspended') return;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(melodyNotes[noteIdx], audioCtx.currentTime);
+            noteIdx = (noteIdx + 1) % melodyNotes.length;
+
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 0.2);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+        }
+
+        function toggleAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const musicText = document.getElementById('musicText');
+            const visualizer = document.getElementById('visualizer');
+
+            if (!isAudioPlaying) {
+                isAudioPlaying = true;
+                musicText.innerText = "Playing Melody";
+                visualizer.classList.remove('hidden');
+                playRomanticChords();
+                melodyInterval = setInterval(playRomanticChords, 600);
+            } else {
+                isAudioPlaying = false;
+                musicText.innerText = "Romantic Melody";
+                visualizer.classList.add('hidden');
+                clearInterval(melodyInterval);
+            }
+        }
+
+
+        // --- 3. Letter Unseal Toggle ---
+        function toggleLetter() {
+            const letterBody = document.getElementById('letterBody');
+            const btnText = document.getElementById('letterBtnText');
+            const btnIcon = document.getElementById('letterBtnIcon');
+            const letterPrompt = document.getElementById('letterPrompt');
+
+            letterBody.classList.toggle('letter-open');
+
+            if (letterBody.classList.contains('letter-open')) {
+                btnText.innerText = "Seal Letter";
+                btnIcon.className = "fas fa-envelope-open";
+                letterPrompt.style.display = "none";
+                triggerLoveShower();
+            } else {
+                btnText.innerText = "Unseal Letter";
+                btnIcon.className = "fas fa-envelope";
+                letterPrompt.style.display = "block";
+            }
+        }
+
+
+        // --- 4. Love Note Generator ---
+        const loveNotes = [
+            "Your smile instantly brightens up my darkest days and brings peace to our home.",
+            "You are an extraordinary mother to Al-Fateh, Al-Fayyad, and Maryam Falisa. Watching you love them fills my heart.",
+            "In your eyes, I found my soulmate, my best friend, and my forever home.",
+            "Thank you for your endless patience, grace, and all the warm meals and love you share everyday.",
+            "Every single day with you reminds me how blessed I am to call you my wife, Noorfazlin.",
+            "Your kindness and gentle spirit make our world a much sweeter place."
+        ];
+        let currentNoteIndex = 0;
+
+        function generateNewLoveNote() {
+            currentNoteIndex = (currentNoteIndex + 1) % loveNotes.length;
+            const noteText = document.getElementById('loveNoteText');
+            
+            // Fade effect
+            noteText.style.opacity = '0';
+            setTimeout(() => {
+                noteText.innerText = `"${loveNotes[currentNoteIndex]}"`;
+                noteText.style.opacity = '1';
+            }, 200);
+        }
+
+
+        // --- 5. Blow Out Candles Interaction ---
+        let candlesOut = false;
+
+        function blowCandles() {
+            const f1 = document.getElementById('cakeFlame1');
+            const f2 = document.getElementById('cakeFlame2');
+            const f3 = document.getElementById('cakeFlame3');
+            const statusText = document.getElementById('cakeStatusText');
+            const btn = document.getElementById('blowCandleBtn');
+
+            if (!candlesOut) {
+                f1.style.display = 'none';
+                f2.style.display = 'none';
+                f3.style.display = 'none';
+                candlesOut = true;
+
+                statusText.innerText = "✨ Your birthday wish has been made! Happy Birthday, Noorfazlin! ✨";
+                btn.innerHTML = `<i class="fas fa-redo"></i> <span>Relight Candles</span>`;
+
+                triggerLoveShower();
+            } else {
+                f1.style.display = 'block';
+                f2.style.display = 'block';
+                f3.style.display = 'block';
+                candlesOut = false;
+
+                statusText.innerText = "Close your eyes, make a heartfelt wish, and click below to blow out the flames!";
+                btn.innerHTML = `<i class="fas fa-wind"></i> <span>Blow Out Candles</span>`;
+            }
+        }
+
+
+        // --- 6. Confetti & Heart Shower Burst ---
+        function triggerLoveShower() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#e57799', '#f7cfda', '#d9a74a', '#ffffff']
+                });
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#c23360', '#f7ebce']
+                    });
+                }, 200);
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#c23360', '#f7ebce']
+                    });
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>
+```
